@@ -1,2 +1,2 @@
 # collect-project-cs
-项目汇总，后期完善
+日常练习代码
