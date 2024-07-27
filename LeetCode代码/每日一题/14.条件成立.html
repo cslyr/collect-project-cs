@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // var a = {
+      //   value: 0,
+      //   // valueOf: function () {
+      //   //   this.value++;
+      //   //   return this.value;
+      //   // },
+      //   toString: function () {
+      //     this.value--;
+      //     return this.value;
+      //   },
+      // };
+      // console.log(a);//-1
+      // console.log(a);//-1
+      // console.log(a == 1 && a == 2);//false
+
+
+      /* 
+      通过调用不同顺序的 valueOf() 和 toString() 方法来转换为原始值。在 console.log(a == 1 && a == 2) 中，JavaScript 引擎会尝试将 a 转换为原始值进行比较。由于没有指定转换的类型，JavaScript 引擎会先尝试调用 valueOf() 方法来获取原始值，
+      然后再调用 toString() 方法。在这段代码中，valueOf() 方法使 value 属性递增，因此每次比较时都会得到不同的值，最终导致 a == 1 && a == 2 的结果为 true。
+      */
+      var a = {
+        value: 0,
+        valueOf: function () {
+          this.value++;
+          return this.value;
+        },
+      };
+      console.log(a == 1 && a == 2);//true
+
+    </script>
+  </body>
+</html>

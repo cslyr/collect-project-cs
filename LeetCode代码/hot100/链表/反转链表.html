@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const arr = [1, 2, 3];
+      /* 
+        反转链表的四步操作
+        next = curr.next  // 保存curr的下一个节点
+        curr.next = prev  // 反转curr的指向
+        prev = curr       // 移动prev到curr
+        curr = next       // 移动curr到next
+      */
+      // function ListNode(val) {
+      //   this.val = val;
+      //   this.next = null;
+      // }
+
+      // function reverseList(pHead) {
+      //   let prev = null;
+      //   let curr = pHead;
+      //   while (curr != null) {
+      //     let next = curr.next; // 保存下一个节点
+      //     curr.next = prev; // 反转当前节点的指向
+      //     prev = curr; // 步进：移动prev到curr
+      //     curr = next; // 步进：移动curr到next
+      //   }
+      //   return prev; // 当循环结束时，prev将会是新的头结点
+      // }
+
+      // // 示例
+      // const node1 = new ListNode(1);
+      // const node2 = new ListNode(2);
+      // const node3 = new ListNode(3);
+      // node1.next = node2;
+      // node2.next = node3;
+      // const newHead = reverseList(node1);
+      // console.log(newHead); // 此时链表已经反转，newHead是反转后的头节点
+
+      function listNode(val) {
+        this.val = val;
+        this.next = null;
+      }
+      let node1 = new listNode(1);
+      let node2 = new listNode(2);
+      let node3 = new listNode(3);
+      node1.next = node2;
+      node2.next = node3;
+     let res= reverseNode(node1)
+      console.log("res",res)
+      function reverseNode(node) {
+        let cur = node;
+        let pre = null;
+        while (cur) {
+          let temp = cur.next;
+          cur.next = pre;
+          pre = cur;
+          cur = temp;
+        }
+        return pre
+      }
+
+    </script>
+  </body>
+</html>

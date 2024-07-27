@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 定义一个对象及其原型
+      const personProto = {
+        get name() {
+          console.log('Accessing name through getter');
+          return `Name from proto: ${this._name}`;
+        },
+      };
+
+      const person = {
+        _name: 'John', // 私有属性，通常通过getter来访问
+      };
+
+      // 设置原型链
+      Object.setPrototypeOf(person, personProto);
+
+      // 使用Proxy代理person对象
+      const personProxy = new Proxy(person, {
+        get: function (target, key, receiver) {
+          // console.log(`target is:`, target);
+          // console.log(`key is:`, key);
+          // console.log(`receiver is:`, receiver);
+          // 注意：这里我们直接返回原属性的值，通常您可能会根据需求做一些自定义的处理
+          return Reflect.get(target, key, receiver);
+        },
+      });
+
+      // 通过代理访问name属性，触发getter
+      console.log(personProxy.name);
+    </script>
+  </body>
+</html>

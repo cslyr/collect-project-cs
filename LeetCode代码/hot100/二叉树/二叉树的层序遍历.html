@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var levelOrder = function (root) {
+        // 初始化一个数组来存放最终的遍历结果
+        let res = [];
+        // 如果根节点为空，则直接返回空数组
+        if (root == null) {
+          return res;
+        }
+
+        // 初始化一个队列（使用数组模拟），并将根节点入队
+        let q = [];
+        q.push(root);
+        // 使用 while 循环来控制从上到下按层遍历树
+        while (q.length > 0) {
+          // sz 存储当前层的节点数，即队列的长度
+          let sz = q.length;
+          // 初始化一个数组来存储当前层的节点值
+          let level = [];
+          // 使用 for 循环遍历当前层的所有节点
+          for (let i = 0; i < sz; i++) {
+            // 将当前节点从队列中取出
+            let cur = q.shift();
+            // 将当前节点的值加入到当前层的结果数组中
+            level.push(cur.val);
+            // 如果当前节点的左子节点不为空，则将左子节点加入队列
+            if (cur.left != null) q.push(cur.left);
+            // 如果当前节点的右子节点不为空，则将右子节点加入队列
+            if (cur.right != null) q.push(cur.right);
+          }
+          // 将当前层的结果数组加入到最终结果数组中
+          res.push(level);
+        }
+        // 返回最终的层序遍历结果
+        return res;
+      };
+
+      
+    </script>
+  </body>
+</html>

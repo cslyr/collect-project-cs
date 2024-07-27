@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Parent() {
+        // 父类的构造函数
+      }
+
+      function Child() {
+        // 子类的构造函数
+      }
+
+      Child.prototype = new Parent(); // 设置子类的原型为父类的实例
+
+      console.log(Child.prototype.constructor);
+      /* 
+      通过将 Child.prototype 设置为 new Parent()，子类 Child 继承了父类 Parent 的属性和方法。然后，通过手动将 Child.prototype.constructor 设置为 Child，确保子类的构造函数指向自身。
+
+这样，demo.constructor 的输出将是 Child，表示 demo 实例的构造函数是 Child，以确保子类的实例通过 constructor 属性可以准确地识别其构造函数。 */
+    </script>
+  </body>
+</html>

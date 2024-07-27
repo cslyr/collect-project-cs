@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //1.判断序号是否闭合
+      /*
+      给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效闭合。
+      有效字符串需满足：
+      左括号必须用相同类型的右括号闭合。
+      左括号必须以正确的顺序闭合。
+      示例 1：
+      输入：s = "()"
+      输出：true
+
+      示例 2：
+      输入：s = "{[()]}"
+      输出：true
+
+      示例 3：
+      输入：s = "("
+      输出：false
+
+      示例 4：
+      输入：s = "{(]}"
+      输出：false
+
+      */
+      // function on(s) {
+      //   let arr = [];
+      //   let setMap = {
+      //     '(': ')',
+      //     '{': '}',
+      //     '[': ']',
+      //   };
+      //   for (let chart of s) {
+      //     if (chart in setMap) {
+      //       arr.push(chart);
+      //       // console.log("11")
+      //     } else if (chart === ']' || chart === ')' || chart === '}') {
+      //       // console.log("22")
+      //       let getHeader = arr.pop();
+      //       // console.log(getHeader)
+      //       // console.log(chart)
+      //       if (setMap[getHeader] !== chart) {
+      //         // console.log("1")
+      //         return false;
+      //       }
+      //     }
+      //   }
+      //   // console.log(arr.length);
+      //   if (arr.length == 0) {
+      //     return true;
+      //   }
+      // }
+      // console.log(on('{()}'));
+      //2.判断是否成环
+      let h1=new ListNode(1)
+      let h2=new ListNode(2)
+      let h3=new ListNode(3)
+      h1.next=h2
+      h2.next=h3
+      function ListNode(val) {
+        this.val = val;
+        this.next = null;
+      }
+      hasCycle(h1)
+      function hasCycle(head) {
+        if (head == null || head.next == null) {
+          return false;
+        }
+        let slow = head;
+        let fast = head.next;
+        while (slow !== fast) {
+          if (fast == null || fast.next == null) {
+            return false;
+          }
+          slow = slow.next;
+          fast = fast.next.next;
+        }
+        return true;
+      }
+
+      //3.网络请求的并发控制
+      const upload = async (limit, array, iteratorFn) => {
+        const ret = []; //存储请求返回结果
+        const onResolve = []; //正在执行的请求列表
+        for (const item of array) {
+          const p = Promise.resolve().then(() => iteratorFn(item)); //将所有请求转换为promise请求
+          ret.push(p);
+          if (limit <= array.length) {
+            onResolve.push(e);
+            const e = p.then(() => onResolve.splice(onResolve.indexOf(e), 1));
+            if (onResolve.length >= limit) {
+              await Promise.race(onResolve);
+            }
+          }
+        }
+        return Promise.all(ret);
+      };
+      //无重复最长子串
+      let s = 'abcabcbb';
+      findShort(s);
+      function findShort(s) {
+        let s1 = s.split('');
+        let chart = new Set(s1);
+        // console.log(s1)
+        let chartCount = new Map();
+        let left = 0;
+        for (let r = 0; r < s.length; r++) {
+          // let word2=chartCount
+          chartCount.set(s[r]);
+          // console.log(chartCount)
+          // while()
+        }
+      }
+    </script>
+  </body>
+</html>

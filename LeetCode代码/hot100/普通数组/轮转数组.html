@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function rote(nums, k) {
+        k = k % nums.length;
+        nums.unshift(...nums.splice(nums.length-k,k))
+        console.log('nums',nums)
+      }
+
+      rote([1, 2, 3, 4, 5, 6, 7], 3);
+    </script>
+  </body>
+</html>

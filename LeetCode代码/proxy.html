@@ -1,0 +1,47 @@
+-<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const handler = {
+        //target被代理的对象，在这里面其实是proxy的第一个参数
+        //property在这里表示的是被拦截的属性名,也就是当前对象所要操作的具体属性
+        //receiver是Proxy或继承Proxy的对象。在大多数情况下，receiver就是Proxy对象本身，但如果存在继承链，receiver可能是调用这个属性的对象。
+        //确保了getter函数的this指向的正确性
+        get(target, property, receiver) {
+          console.log("target",target)
+          console.log("property",property)
+          console.log("receiver",receiver)
+          const result = Reflect.get(target, property, receiver);
+          console.log('result', result);
+          console.log(`获取 ${property} 的值为: ${result}`);
+          return result;
+        },
+        set(target, property, value, receiver) {
+          //返回的是一个Boolean类型的值，当值为true的时候表示设置成功，当值为false的时候表示设置失败
+          //其中的value表示的是要被设置的新值
+          const success = Reflect.set(target, property, value, receiver);
+          console.log("success",success)
+          if (success) {
+            console.log(`设置 ${property} 的值为: ${value}`);
+          }
+          return success;
+        },
+      };
+
+      const reactive = obj => {
+        return new Proxy(obj, handler);
+      };
+
+      const data = reactive({ a: 1, b: 2 });
+
+      // console.log(data.a); // 输出: 获取 a 的值为: 1
+      data.a = 3; // 输出: 设置 a 的值为: 3
+      console.log(data.a); // 输出: 获取 a 的值为: 3
+    </script>
+  </body>
+</html>

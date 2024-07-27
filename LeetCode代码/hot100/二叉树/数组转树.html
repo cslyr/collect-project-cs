@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //其中parentId=null的时候表示的是根节点
+      const data = [
+        { id: 1, parentId: null },
+        { id: 2, parentId: 1 },
+        { id: 3, parentId: 1 },
+        { id: 4, parentId: 2 },
+        { id: 5, parentId: 2 },
+        { id: 6, parentId: 3 },
+      ];
+      function getTree(data) {
+        //查看是否存在根节点
+        const rootNodeData = data.find(({ parentId }) => parentId === null);
+        //如果不存在根节点的话
+        if (!rootNodeData) {
+          throw new Error('数据当中找不到根节点');
+        }
+        return createNode(rootNodeData.id, data); //创建节点
+      }
+      function createNode(id, data) {
+        //根据父id筛选出来id
+        const childData = data.filter(({ parentId }) => parentId === id);
+        // console.log("childData",childData)
+        //配置node
+        const node = {
+          id: id,
+          children: childData.reduce((pre, cur) => {
+            pre.push(createNode(cur.id, data));
+            return pre;
+          }, []),
+        };
+        return node;
+      }
+      let res = getTree(data);
+
+    //   function construct(data) {
+    //     let rootNode = data.find(({ parentId }) => {
+    //       // console.log("parentId",parentId)
+    //       return parentId === null;
+    //     });
+    //     if (!rootNode) {
+    //       throw new Error();
+    //     }
+    //    return  constructNode(rootNode.id, data);
+    //     // console.log('rootNode', rootNode);
+    //   }
+    //   function constructNode(id, data) {
+    //     let filterData = data.filter(({ parentId }) => parentId === id);
+    //     return {
+    //       id: id,
+    //       children: filterData.reduce((pre, cur) => {
+    //         pre.push(constructNode(cur.id, data));
+    //         return pre;
+    //       }, []),
+    //     };
+    //   }
+    //  let res= construct(data);
+    //   console.log('res', res);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function isValidBST(root) {
+        let pre = -Infinity;//初始化pre，将pre设置为无穷小
+
+        function traverse(node) {
+          if (node === null) {
+            return true;
+          }
+          // 访问左子树
+          if (!traverse(node.left)) {//检查左子树是否满足BST的条件，如果左子树不满足条件的话，那么返回的就是false
+            return false;
+          }
+          // 访问当前节点
+          if (node.val <= pre) {
+            return false;
+          }
+          pre = node.val;
+          // 访问右子树
+          return traverse(node.right);
+        }
+
+        return traverse(root);
+      }
+    </script>
+  </body>
+</html>

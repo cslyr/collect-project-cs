@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var length = 10;
+      function fn() {
+        console.log(this.length);
+      }
+
+      var obj = {
+        length: 5,
+        method: function (fn) {
+          console.log(arguments);
+          fn();
+          arguments[0]();
+        },
+      };
+      console.log(this);
+      obj.method(fn, 1); //当一个函数被作为对象的方法调用时，函数内部的this会指向该对象。然而，在这个例子中，fn函数作为参数传递给obj.method，然后在method内部被调用。在这种情况下，fn函数内部的this并不会指向obj对象，而是会指向全局对象（在浏览器中是window对象）。
+      /* 官方的解释
+        解析：首先，我们在全局定义了一个变量length、一个对象obj和一个函数fn，length赋值为10。接下来是fn函数，输出this.length。对象obj中，obj.length是5，obj.method是一个函数。method函数里面的形参也是一个函数，这个函数里面调用了fn函数，arguments是一个伪数组，代表method函数实际接收到的参数列表，所以arguments[0] ()就代表了调用arguments里的第一项。obj.method(fn, 1)代表的就是调用obj当中的method函数，并且传递了两个参数，fn和1。
+分析完了代码的含义，我们来看输出结果。method函数当中调用的fn函数是全局当中的函数，所以this指向的是window，this.length就是10。上面说了，arguments[0] ()代表的是调用arguments里面的第一项，也就是传参进来的fn，所以这个this指向的是arguments，method函数接收的参数是两个，所以arguments.length就是2。最后的输出结果就是 10 2
+      */
+    </script>
+  </body>
+</html>

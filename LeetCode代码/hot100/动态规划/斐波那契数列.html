@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //斐波那契数列当中的 一项是前两项之和
+      //使用递归实现
+      // function execute(index) {
+      //   if (index <= 2) {
+      //     return 1;
+      //   } else {
+      //     let first=index-2
+      //     let seconde=index-1
+      //     return  execute(first)+execute(seconde)
+      //   }
+      // }
+      function execute(index) {
+        if(index<=1){
+          return index
+        }
+        let pre=0
+        let cur=1
+        for(let i=2;i<=index;i++){
+          let result=pre+cur
+          pre=cur
+          cur=result
+        }
+        return cur
+      }
+      //不使用递归实现
+      let res = execute(4);
+      console.log('res', res);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var twoSum = function (nums, target) {
+        let map = new Map();
+        for (let i = 0; i < nums.length; i++) {
+          let complement = target - nums[i];
+          if (map.has(complement)) {
+            // console.log('map', map);
+            console.log('result', map.get(complement));
+            return [map.get(complement), i];
+          }
+          map.set(nums[i], i);
+          console.log('map', map);
+        }
+      };
+
+      console.log(twoSum([2, 11, 15,7], 9));
+      // map.set(key, value)
+      // map.get(key)
+      // map.has(key)   //返回boolean
+    </script>
+  </body>
+</html>

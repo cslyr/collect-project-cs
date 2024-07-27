@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var findAnagrams = function (s, t) {
+        const need = new Map();
+        const window = new Map();
+        for (const c of t) {
+          need.set(c, (need.get(c) || 0) + 1);
+        }
+
+        let left = 0,
+          right = 0;
+        let valid = 0;
+        const res = [];
+
+        while (right < s.length) {
+          const c = s[right];
+          right++;
+          // 进行窗口内数据的一系列更新
+          if (need.has(c)) {
+            window.set(c, (window.get(c) || 0) + 1);
+            if (window.get(c) === need.get(c)) {
+              valid++;
+            }
+          }
+          // 判断左侧窗口是否要收缩
+          while (right - left >= t.length) {
+            // 当窗口符合条件时，把起始索引加入 res
+            if (valid === need.size) {
+              res.push(left);
+            }
+            const d = s[left];
+            left++;
+            // 进行窗口内数据的一系列更新
+            if (need.has(d)) {
+              if (window.get(d) === need.get(d)) {
+                valid--;
+              }
+              window.set(d, window.get(d) - 1);
+            }
+          }
+        }
+        return res;
+      };
+    </script>
+  </body>
+</html>

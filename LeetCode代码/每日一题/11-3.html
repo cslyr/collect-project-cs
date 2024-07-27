@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function a(xx) {//注意看返回的值是this
+        this.x = xx;
+        return this;
+      }
+      var x = a(5);//函数a被直接调用，而不是作为对象的方法调用，因此this指向了全局对象window
+      /*当只是执行 var x = a(5) 的时候返回的是a()函数当中的this 其中的this指向的是window，所以x指向的也就是window
+      当执行var y = a(6);的时候this指向的是y，并且在这个时候对this.x强行赋值成为6所以  this.x等于6   y指向的是this
+      y.x指向的就是6     那么x.x也就是6.x得到的值就是undefined
+       */
+      var y = a(6);
+      console.log(this)
+      console.log(x.x);
+      console.log(y.x);
+    </script>
+  </body>
+</html>

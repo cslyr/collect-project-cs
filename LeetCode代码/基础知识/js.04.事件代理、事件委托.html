@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <ul id="myList">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+  </head>
+  <body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        
+        let myList = document.getElementById('myList');
+        myList.addEventListener('click', function (event) {
+          // console.log(event.target.tagName === 'LI');
+          if(event.target.tagName==='LI'){
+            console.log('1111')
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

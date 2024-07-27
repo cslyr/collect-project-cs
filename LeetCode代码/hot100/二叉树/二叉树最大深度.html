@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function TreeNode(val, left = null, right = null) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+      }
+
+      function maxDepth(root) {
+        if (root === null) {
+          return 0;
+        } else {
+          let leftDepth = maxDepth(root.left);
+          let rightDepth = maxDepth(root.right);
+          return Math.max(leftDepth, rightDepth) + 1;
+        }
+      }
+
+      // 示例用法
+      // 构造示例 1 的二叉树: [3,9,20,null,null,15,7]
+      let root = new TreeNode(3);
+      root.left = new TreeNode(9);
+      root.right = new TreeNode(20, new TreeNode(15), new TreeNode(7));
+
+      console.log(maxDepth(root)); // 输出: 3
+
+      // 构造示例 2 的二叉树: [1,null,2]
+      let root2 = new TreeNode(1, null, new TreeNode(2));
+
+      console.log(maxDepth(root2)); // 输出: 2
+    </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function parent(age){
+      this.name=['1','2']
+      this.age=age
+    }
+    parent.prototype.show=function(){
+      console.log("11111")
+    }
+    function child(age){
+      parent.call(this,age)
+    }
+    let child1=new child(1)
+    let child2=new child(2)
+    child1.name.push('3')
+    console.log(child1)
+    console.log(child2)
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Dep {
+        static stack = []; // 用于存储当前激活的目标（watcher），支持嵌套。
+        static target = null; // 当前正在收集依赖的目标。
+        deps = null; // 用于存储当前Dep实例相关的依赖（watcher）。
+
+        constructor() {
+          this.deps = new Set(); // 初始化依赖集合。
+        }
+
+        depend() {
+          if (Dep.target) {
+            this.deps.add(Dep.target); // 将当前激活的目标添加到依赖集合中。
+          }
+        }
+
+        notify() {
+          this.deps.forEach(w => w.update()); // 通知所有依赖执行更新操作。
+        }
+
+        static pushTarget(t) {
+          if (this.target) {
+            this.stack.push(this.target); // 保存当前激活的目标到堆栈中。
+          }
+          this.target = t; // 设置新的激活目标。
+        }
+
+        static popTarget() {
+          this.target = this.stack.pop(); // 恢复之前的激活目标。
+        }
+      }
+
+      function reactive(o) {
+        if (o && typeof o === 'object') {
+          Object.keys(o).forEach(k => {
+            defineReactive(o, k, o[k]); // 递归地将对象的每个属性转换为响应式属性。
+          });
+        }
+        return o;
+      }
+
+      function defineReactive(obj, k, val) {
+        let dep = new Dep(); // 为每个属性创建一个Dep实例用于依赖管理。
+        Object.defineProperty(obj, k, {
+          get() {
+            dep.depend(); // 收集依赖。
+            return val; // 返回当前属性的值。
+          },
+          set(newVal) {
+            val = newVal; // 更新属性值。
+            dep.notify(); // 通知依赖进行更新。
+          },
+        });
+        if (val && typeof val === 'object') {
+          reactive(val); // 如果属性值是对象，则递归地将其转换为响应式。
+        }
+      }
+
+      class Watcher {
+        constructor(effect) {
+          this.effect = effect; // 保存副作用函数。
+          this.update(); // 立即执行一次更新，以便收集依赖。
+        }
+
+        update() {
+          Dep.pushTarget(this); // 将当前watcher设为激活目标。
+          this.value = this.effect(); // 执行副作用函数。
+          Dep.popTarget(); // 恢复之前的激活目标。
+          return this.value;
+        }
+      }
+
+      // 测试代码
+      const data = reactive({
+        msg: 'aaa',
+      });
+
+      new Watcher(() => {
+        console.log('===> effect', data.msg); // 副作用函数，用于打印data.msg的当前值。
+      });
+
+      setTimeout(() => {
+        data.msg = 'hello'; // 1秒后更新data.msg，触发依赖更新。
+      }, 1000);
+    </script>
+  </body>
+</html>

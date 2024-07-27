@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      console.log('AAAA');
+      setTimeout(() => console.log('BBBB'), 1000);
+      const start = new Date();
+      while (new Date() - start < 30) {   //会阻塞一会进程
+        console.log('1111');
+      }
+      console.log('CCCC');
+      setTimeout(() => console.log('DDDD'), 0);
+      new Promise((resolve, reject) => {
+        console.log('EEEE');
+        resolve();
+      })
+        .then(() => {
+          console.log('FFFF');
+        })
+        .then(() => {
+          console.log('GGGG');
+        })
+        .catch(() => console.log('HHHH'));
+      console.log('IIII');
+    </script>
+  </body>
+</html>

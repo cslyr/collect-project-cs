@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //使用观察者模式实现
+      class Dep {
+        //依赖管理类，收集依赖数据触发依赖更新
+        constructor() {
+          this.subs = [];
+        }
+        addSub(sub) {
+          // sub 是 Watcher 实例
+          this.subs.push(sub);
+        }
+        notify() {
+          this.subs.forEach(sub => {
+            sub.update();
+          });
+        }
+      }
+      // 全局属性，通过该属性配置 Watcher
+      Dep.target = null; //全局作用域当中设置为null
+
+      class Watcher {
+        constructor(obj, key, cb) {
+          //接收三个参数分别是被观察的对象，被观察对象的属性，当属性的值发生改变的时候触发的操作
+          // 将 Dep.target 指向自己
+          // 然后触发属性的 getter 添加监听
+          // 最后将 Dep.target 置空
+          Dep.target = this; //全局变量 Dep.target 设置为当前 Watcher 实例
+          this.cb = cb;
+          this.obj = obj;
+          this.key = key;
+          this.value = obj[key];
+          Dep.target = null;
+        }
+        update() {
+          // 获得新值
+          this.value = this.obj[this.key];
+          // 调用 update 方法更新 Dom
+          this.cb(this.value);
+        }
+      }
+      var data = { name: 'poetry' };
+      observe(data);
+      // 模拟解析到 `{{name}}` 触发的操作
+      new Watcher(data, 'name', update);
+      function update(value) {
+        document.querySelector('div').innerText = value; //找到页面当中的第一个div元素并且将他的内容设置成为value
+      }
+      // update Dom innerText
+      data.name = 'yyy';
+      function observe(obj) {
+        // 判断类型
+        if (!obj || typeof obj !== 'object') {
+          //只有对象类型才能定义响应式属性
+          return;
+        }
+        Object.keys(data).forEach(key => {
+          defineReactive(obj, key, obj[key]); //data表示的是对象本身,注意要是迭代之后的对象      key表示的是属性   data[key]表示的是值
+        });
+      }
+
+      function defineReactive(obj, key, val) {
+        // 递归子属性
+        observe(val); //如果属性的值是一个对象，那么这个对象的属性也会被设置为响应式属性。
+        Object.defineProperty(obj, key, {
+          //对obj这个对象上面的key属性设置get和set的响应式
+          enumerable: true, //是否通过for...in循环或Object.keys方法返回
+          configurable: true, //是否可以修改属性的描述符或删除属性
+          get: function reactiveGetter() {
+            console.log('get value');
+            return val;
+          },
+          set: function reactiveSetter(newVal) {
+            console.log('change value');
+            val = newVal; //***********易错点也是需要注意的点    因为这这个对象当中使用后的是递归的方法去更新的值，所以不能直接使用obj[key]=  这样的方法去更新值
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

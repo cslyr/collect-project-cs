@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      console.log(null===undefined)
+      let _objectCreate = function (proto) {
+        if (typeof proto !== 'object') {
+          throw new Error('Type Error');
+        }
+        let Fn = function () {};
+        Fn.prototype = proto;
+        return new Fn();
+      };
+      function testProto() {
+        this.name = 'chen';
+      }
+      testProto.prototype.greet = function () {
+        return `Hello, my name is ${this.name}`;
+      };
+
+      let getProto = _objectCreate(testProto.prototype);
+      getProto.name = 'li';
+      console.log('get', getProto.greet());
+    </script>
+  </body>
+</html>

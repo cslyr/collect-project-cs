@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+          install(app: App) {
+        const router = this
+        // 定义当前的 router 实例
+
+        app.component('RouterLink', RouterLink)
+        // 全局注册 RouterLink 组件，使其可以在任何地方使用
+
+        app.component('RouterView', RouterView)
+        // 全局注册 RouterView 组件，这是显示路由匹配组件的占位符
+
+        app.config.globalProperties.$router = router
+        // 把 router 实例添加到 Vue 的全局属性中，可以通过 this.$router 访问
+
+        Object.defineProperty(app.config.globalProperties, '$route', {
+          enumerable: true,
+          get: () => unref(currentRoute),
+        })
+        // 以响应式方式定义 $route 属性，使其能够返回当前路由对象
+
+        if (
+          isBrowser &&
+          !started &&
+          currentRoute.value === START_LOCATION_NORMALIZED
+        ) {
+          started = true
+          push(routerHistory.location).catch(err => {
+            if (__DEV__) warn('Unexpected error when starting the router:', err)
+          })
+        }
+        // 如果在浏览器环境中且路由尚未启动，并且当前路由是初始位置，则启动路由。
+        // 这避免了在客户端上的首次导航触发多次不必要的导航
+
+        const reactiveRoute = {}
+        // 创建一个反应式路由对象
+
+        for (const key in START_LOCATION_NORMALIZED) {
+          reactiveRoute[key] = computed(() => currentRoute.value[key])
+        }
+        // 为 START_LOCATION_NORMALIZED 中的每个键创建一个计算属性，使其能够响应式地返回当前路由的对应值
+
+        app.provide(routerKey, router)
+        // 向应用提供路由实例，使其可以在组件内部通过 inject 访问
+
+        app.provide(routeLocationKey, reactive(reactiveRoute))
+        // 向应用提供反应式路由对象
+
+        app.provide(routerViewLocationKey, currentRoute)
+        // 向应用提供当前路由
+
+        const unmountApp = app.unmount
+        // 存储原始的 unmount 方法
+
+        installedApps.add(app)
+        // 把当前应用添加到已安装的应用集合中
+
+        app.unmount = function () {
+          installedApps.delete(app)
+          // 当应用卸载时，从已安装的应用集合中删除
+
+          if (installedApps.size < 1) {
+            // 如果没有更多已安装的应用，清理路由状态
+            pendingLocation = START_LOCATION_NORMALIZED
+            removeHistoryListener && removeHistoryListener()
+            removeHistoryListener = null
+            currentRoute.value = START_LOCATION_NORMALIZED
+            started = false
+            ready = false
+          }
+          unmountApp()
+          // 调用原始的 unmount 方法
+        }
+
+        if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && isBrowser) {
+          addDevtools(app, router, matcher)
+        }
+        // 如果是开发环境或已启用开发工具功能，并且在浏览器环境中，为应用添加 Vue Devtools 支持
+      }
+    </script>
+  </body>
+</html>

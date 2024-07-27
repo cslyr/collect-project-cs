@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+        了解一下什么是异步串行什么是异步并行
+        异步串行是指依次执行异步操作，每个操作的结果作为下一个操作的输入。
+        异步并行是指同时执行多个异步操作，然后将它们的结果合并。在串行处理中，每个操作必须等待上一个操作完成后才能开始，而在并行处理中，多个操作可以同时进行。
+      */
+
+      // 字节面试题，实现一个异步加法
+      function asyncAdd(a, b, callback) {
+        setTimeout(function () {
+          callback(null, a + b);
+        }, 500);
+      }
+
+      // 解决方案
+      // 1. promisify
+      const promiseAdd = (a, b) =>
+        new Promise((resolve, reject) => {
+          asyncAdd(a, b, (err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          });
+        });
+
+      // 2. 串行处理
+      async function serialSum(...args) {
+        return args.reduce(
+          (task, now) => task.then(res => promiseAdd(res, now)),
+          Promise.resolve(0)
+        );
+      }
+      //将上方的异步串行代码进行合并处理
+      async function chuanSum(...args) {
+        return args.reduce((pre, cur) => {
+          return pre.then(res => {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve(res + cur);
+              }, 500);
+            });
+          });
+        }, Promise.resolve(0));
+      }
+
+      // 3. 并行处理
+      async function parallelSum(...args) {
+        if (args.length === 1) return args[0];
+        const tasks = [];
+        for (let i = 0; i < args.length; i += 2) {
+          tasks.push(promiseAdd(args[i], args[i + 1] || 0));
+        }
+        const results = await Promise.all(tasks);
+        return parallelSum(...results);
+      }
+
+      async function concatFunction(...args) {
+        if (args.length === 1) return args[0]; //如果传进来的只有一个参数的话   就直接返回
+        const task = []; //设置一个数组当中全部存储promise对象
+        for (let i = 0; i < args.length; i += 2) {
+          task.push(
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                resolve(args[i] + (args[i + 1] || 0));
+              }, 500);
+            })
+          );
+        }
+        let result =await Promise.all(task);
+        return concatFunction(...result);//如果不使用迭代的话返回的是 [3, 7, 13, 19, 23]
+      }
+      // 测试   根据测试可以知道异步并行处理的速度要比异步串行处理的速度快很多
+      (async () => {
+        console.log('Running...');
+        const res1 = await chuanSum(1, 2, 3, 4, 5, 8, 9, 10, 11, 12);
+        console.log(res1, '111111');
+        console.log('Done');
+      })();
+      (async () => {
+        console.log('Running...');
+        const res2 = await concatFunction(1, 2, 3, 4, 5, 8, 9, 10, 11, 12);
+        console.log(res2, '22222');
+        console.log('Done');
+      })();
+    </script>
+  </body>
+</html>

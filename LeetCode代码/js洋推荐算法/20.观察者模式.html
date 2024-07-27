@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+        1. 被观察者构造函数需要包含"name"属性和"state"属性且"state"初始值为"走路"
+        2. 被观察者创建"setObserver"函数用于保存观察者们
+        3. 被观察者创建"setState"函数用于设置该观察者"state"并且通知所有观察者
+        4. 观察者创建"update"函数用于被观察者进行消息通知，该函数需要打印（console.log）数据，数据格式为：小明正在走路。其中"小明"为被观察者的"name"属性，"走路"为被观察者的"state"属性
+      */
+      // class Observerd {
+      //   constructor(name) {
+      //     this.name = name;
+      //     this.state = '走路';
+      //     this.observe = [];
+      //   }
+      //   setObserver(observe) {
+      //     this.observe.push(observe);
+      //   }
+      //   setState(state){
+      //     this.state=state
+      //     this.observe.forEach(item=>{
+      //       item.update(this)
+      //     })
+      //   }
+      // }
+
+      // class Observer {
+      //   update(getNotice){
+      //     console.log(getNotice.name + '正在'+getNotice.state)
+      //   }
+      // }
+
+      // let ob=new Observerd('小明')
+      // let observe1=new Observer()
+      // let observe2=new Observer()
+      // ob.setObserver(observe1)
+      // ob.setObserver(observe2)
+      // ob.setState("跑步")
+
+      // class Subject {
+      //   constructor() {
+      //     this.observerList = [];
+      //   }
+      //   addObserve(observer) {
+      //     this.observerList.push(observer);
+      //   }
+      //   removeObserver(observer) {
+      //     const index = this.observerList.findIndex(
+      //       o => o.name === observer.name
+      //     );
+      //     this.observerList.splice(index, 1);
+      //   }
+      //   notify(message) {
+      //     const observers = this.observerList;
+      //     observers.forEach(observer => observer.update(message));
+      //   }
+      // }
+      // class Observer {
+      //   constructor(name, subject) {
+      //     this.name = name;
+      //     if (subject) {
+      //       subject.addObserve(this);
+      //     }
+      //   }
+      //   update(message) {
+      //     console.log(this.name, 'got message', message);
+      //   }
+      // }
+      // const subject = new Subject();
+      // const observerA = new Observer('observerA', subject);
+      // const observerB = new Observer('observerB');
+      // subject.addObserve(observerB);
+      // subject.notify('Hello from subject');
+      // subject.removeObserver(observerA);
+      // subject.notify('Hello again');
+      class observe {
+        constructor(name) {
+          this.name = name;
+        }
+        update(data) {
+          console.log(data + this.name);
+        }
+      }
+
+      class subject {
+        constructor() {
+          this.sub = [];
+        }
+        addObserve(observe) {
+          this.sub.push(observe);
+        }
+        removeObserve(observe) {
+          let index = this.sub.findIndex(item => {
+           return  item.name === observe.name;//注意点1. 这里一定要加上return
+          });
+          if (index != -1) {//注意点2. 这里一定要加上判断
+            this.sub.splice(index, 1);
+          }
+        }
+        notify(message) {
+          this.sub.forEach(item => {
+            item.update(message);
+          });
+        }
+      }
+      let sub = new subject();
+      let ob1 = new observe('test1');
+      let ob2 = new observe('test2');
+      sub.addObserve(ob1);
+      sub.addObserve(ob2);
+      sub.notify('change');
+      sub.removeObserve(ob1);
+      sub.notify('changeAgain');
+   
+    </script>
+  </body>
+</html>

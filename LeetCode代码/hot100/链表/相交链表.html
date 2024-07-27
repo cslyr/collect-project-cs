@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //实际上类似将长链表和短链表拼接在一起比如A：【1,2,3,4,5,6,7,9】  B：【7,9,5,6,】    其中重合的就是【5,6】
+      //将两个拼接在一起就是【1,2,3,4,5,6,7,9】和【7,9,5,6,1,2,3,4】  遍历完比较长的链表一遍之后，下一步就是公共部分
+      function getIntersectionNode(headA, headB) {
+        if (!headA || !headB) {
+          return null;
+        }
+        let you = headA,
+          she = headB;
+        while (you !== she) {
+          you = you ? you.next : headB;
+          she = she ? she.next : headA;
+        }
+        return you;
+      }
+
+    </script>
+  </body>
+</html>

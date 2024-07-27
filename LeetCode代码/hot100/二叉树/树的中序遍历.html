@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+      中序遍历的特点   先递归遍历左子树，然后中间子树，接着右子树
+    */
+
+      function test(root) {
+        const result = [];
+        function getTest(node) {
+          if (!node) return;
+          getTest(node.left);
+          result.push(node);
+          getTest(node.right);
+        }
+        getTest(root);
+        return result;
+      }
+    </script>
+  </body>
+</html>

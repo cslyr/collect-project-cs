@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <video id="myVideo" width="320" height="240" controls>
+      <source type="video/mp4" />
+      <source type="video/ogg" />
+      Your browser does not support the video tag.
+    </video>
+
+    <script>
+      /* 
+        这个文件里面的内容是练手文件
+        当中的内容可以随时删除
+        重要信息切记不要写进来！！！！
+      */
+      function Parent(name) {
+        this.name = name;
+      }
+
+      function Child() {}
+
+      Child.prototype = new Parent(); // 原
+
+      var child1 = new Child('Alice');
+      console.log(child1.name);
+    </script>
+  </body>
+</html>

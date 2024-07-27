@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .background {
+        width: 200px;
+        height: 200px;
+        background-color: blue;
+        transform:translateZ(0); /* 提升为合成层 */
+      }
+
+      .foreground {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        position: relative;
+        left: 50px; /* 需要显示在蓝色方块上方 */
+        z-index: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+      <div class="foreground"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const list = [
+        { id: 5, parent: 4 },
+        { id: 2, parent: 0 },
+        { id: 3, parent: 1 },
+        { id: 1, parent: 0 },
+        { id: 4, parent: 1 },
+        { id: 0, parent: -1 },
+      ];
+      function buildTree(nodes) {
+        const mapNode = new Map();
+        let root = null;
+        nodes.forEach(node => {
+          mapNode.set(node.id, { id: node.id, children: [] });
+        });
+        // console.log(nodes);
+        nodes.forEach(node=>{
+          if(node.parent===-1){
+            root=mapNode.get(node.id)||null
+          }else{
+            const parentNode=mapNode.get(node.parent)
+            const curNode=mapNode.get(node.id)
+            parentNode.children.push(curNode)
+          }
+        })
+        return root
+      }
+      function maxDep(node){
+        // console.log("node",node)
+        if(node===null) return 0
+        if(node.children.length===0) return 1
+        const depths=node.children.map(child=>{
+          return  maxDep(child)
+        })
+        // console.log(depths)
+        return Math.max(...depths)+1
+      }
+      function getPatch(node){
+        if(node===null) return []
+        if(node.children.length===0) return [node.id]
+        const maxPath=[]
+        node.children.forEach(child=>{
+          const childMax=getPatch(child)
+         if(childMax.length>maxPath)
+        })
+        return paths
+      }
+      // console.log()
+      let res=buildTree(list)
+      // console.log("res",res)
+      // console.log(maxDep(res))
+      console.log(getPatch(res))
+    </script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //模拟一个map函数  同样也展示了为什么没有for循环快
+      //因为for循环是根据索引去查找的数据，但是map函数会对每一个数据加上一个函数
+      Array.prototype._map = function (Fn) {
+        let result = [];
+        this.forEach(item => {//其中的this指向的是调用者在这里面也就是arr
+          result.push(Fn(item));
+        });
+        return result;
+      };
+      let arr = [1, 2, 3, 4];
+      let res = arr._map(function (item) {
+       return item =item+1;
+      });
+      console.log('res', res);
+    </script>
+  </body>
+</html>

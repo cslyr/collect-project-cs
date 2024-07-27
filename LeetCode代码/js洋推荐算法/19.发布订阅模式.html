@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+        1. 同一名称事件可能有多个不同的执行函数
+        2. 通过"on"函数添加事件
+        3. 通过"emit"函数触发事件
+      */
+      // class EventEmitter {
+      //   // 补全代码
+      //   constructor() {
+      //     this.emits = {};
+      //   }
+      //   on(emit, args) {
+      //     if (!this.emits[emit]) {
+      //       this.emits[emit] = [];
+      //     }
+      //     this.emits[emit].push(args);
+      //   }
+      //   emit(event, ...args) {
+      //     if (!this.emits[event]) {
+      //       return;
+      //     } else {
+      //       this.emits[event].forEach(item => {
+      //         // emits[item]
+      //         // console.log("发布订阅中心",emits[event])
+      //         if (typeof item === 'function') {
+      //           item(...args);
+      //         }
+      //       });
+      //     }
+      //   }
+      // }
+      // let getTest = new EventEmitter();
+      // getTest.on('click', message => {
+      //   console.log('触发事件' + message);
+      // });
+      // getTest.emit('click', 'test Data');
+
+      class EventEmitter {
+        constructor() {
+          this.emits = {};
+        }
+        on(emit, fn) {
+          if (!this.emits[emit]) {
+            this.emits[emit] = []; //如果事件队列当中不存在这个属性的时候，将这个属性设置为空的对象，以后谁订阅这个属性，谁就向这个属性当中添加值
+          }
+          //易错点！！！！这里千万不要写else
+          this.emits[emit].push(fn);
+        }
+        emit(event, ...args) {
+          if (!this.emits[event]) {
+            return;
+          }
+          console.log('args', ...args);
+          this.emits[event].forEach(item => {
+            item(...args);
+          });
+        }
+      }
+      // let getTest = new EventEmitter();
+      // //可以通过这个方式多传入几个值
+      // getTest.on('click', (...message) => {
+      //   const output = message.join(' '); // 这将会把所有参数用空格连接成一个字符串
+      //   console.log('发布订阅的值是', output);
+      // });
+      // getTest.emit('click', '触发', '得到的值');
+
+
+      class subEven{
+        constructor(){
+          this.sub={}
+        }
+        on(even,fn){
+          if(!this.sub[even]){
+            this.sub[even]=[]
+          }
+          this.sub[even].push(fn)
+        }
+        emit(even,...args){
+          if(!this.sub[even]){
+            return
+          }
+          this.sub[even].forEach(item=>{
+            item(...args)
+          })
+        }
+      }
+
+      //startTest他就是发布订阅中心
+      let startTest=new subEven()
+      startTest.on('change',function(...args){
+        console.log("args",...args)
+      })
+      startTest.emit('change',1,2,3)
+
+      // class sub {
+      //   constructor() {
+      //     this.emits = {};
+      //   }
+      //   on(event, fun) {
+      //     if (!this.emits[event]) {
+      //       this.emits[event] = [];
+      //     } 
+      //       this.emits[event].push(fun);
+          
+      //   }
+      //   emit(ev, ...args) {
+      //     if (!this.emits[ev]) {
+      //       return;
+      //     }
+      //     this.emits[ev].forEach(item => {
+      //       item(...args);
+      //     });
+      //   }
+      // }
+      // let getTest = new sub();
+      // //可以通过这个方式多传入几个值
+      // getTest.on('click', (...message) => {
+      //   const output = message.join(' '); // 这将会把所有参数用空格连接成一个字符串
+      //   console.log('发布订阅的值是', output);
+      // });
+      // getTest.emit('click', '触发', '得到的值');
+    </script>
+  </body>
+</html>

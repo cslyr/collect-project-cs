@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var aaa = (function () {
+        var a = 1;
+        function bbb() {
+          a++;
+          console.log(a);
+        }
+        function ccc() {
+          a++;
+          console.log(a);
+        }
+        return {
+          b: bbb, //json结构
+          c: ccc,
+          a: a,
+        };
+      })();
+      console.log(aaa.a); //undefined    如果将a return出去就能拿到值，但是不return出去就不能拿到值=》反应的是闭包当中的可以创建私有变量
+      aaa.b(); //2     如果不调用a（）这个函数只调用c()这个函数的话，返回的值是2 =》反应的是闭包当中创建的变量会常驻在内存当中不会被垃圾回收机制回收
+      aaa.c(); //3
+    </script>
+  </body>
+</html>

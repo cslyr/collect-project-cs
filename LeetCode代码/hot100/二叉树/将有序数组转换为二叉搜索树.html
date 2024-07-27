@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵 平衡二叉搜索树。
+      //其实意思也就是截取中间位置的节点作为根节点，然后根据这个根节点去构造二叉树
+
+      function sortedArrayToBST(nums) {
+        if (!nums.length) return null; //1.判断数组长度是不是0，如果长度是0的话就直接返回
+
+        // 将数组分为两半，选择中间元素作为根节点，递归地对左右两半做同样的处理
+        function convertListToBST(left, right) {
+          if (left > right) return null; // 递归结束条件
+
+          // 总是选择中间位置左边的数字作为根节点
+          let mid = Math.floor((left + right) / 2);
+          let node = new TreeNode(nums[mid]); //构建根节点
+
+          // 递归地构造左右子树
+          node.left = convertListToBST(left, mid - 1); //构建左节点   //****重点是起始的位置和右节点当中结束的位置
+          node.right = convertListToBST(mid + 1, right); //构建右节点
+          return node;
+        }
+
+        return convertListToBST(0, nums.length - 1);
+      }
+
+    
+    </script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var urls = [
+        'http://jsonplaceholder.typicode.com/posts/1',
+        'http://jsonplaceholder.typicode.com/posts/2',
+        'http://jsonplaceholder.typicode.com/posts/3',
+        'http://jsonplaceholder.typicode.com/posts/4',
+        'http://jsonplaceholder.typicode.com/posts/5',
+        'http://jsonplaceholder.typicode.com/posts/6',
+        'http://jsonplaceholder.typicode.com/posts/7',
+        'http://jsonplaceholder.typicode.com/posts/8',
+        'http://jsonplaceholder.typicode.com/posts/9',
+        'http://jsonplaceholder.typicode.com/posts/10',
+      ];
+      function loadDate(url) {
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', url);
+          xhr.send();
+          xhr.onload = function () {
+            resolve();
+          };
+        });
+      }
+      limitLoad(urls, loadDate, 3);
+      function limitLoad(urls, handler, limit) {
+        const params = [].concat(urls);
+        let promise = [];
+        promise = params.splice(0, limit).map((item, index) => {
+          return handler(item).then(() => {
+            return index;
+          });
+        });
+        params.reduce((pre, cur, curIndex) => {
+          return pre
+            .then(() => {
+              return Promise.race( promise);
+            })
+            .then(index => {
+              promise[index] = handler(cur).then(() => {
+                return index;
+              });
+            });
+        }, Promise.resolve());
+      }
+    </script>
+  </body>
+</html>

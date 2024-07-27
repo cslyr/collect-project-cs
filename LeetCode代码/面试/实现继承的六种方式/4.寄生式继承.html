@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function parseParent(obj) {
+        let child = Object.create(obj);
+        child.sayName=function(){
+          console.log("chenchen")
+        }
+        return child
+      }
+      const parent = {
+        name: 'huohuo',
+        data: ['3', '180', '50'],
+      };
+      const getChild = parseParent(parent);
+      console.log(getChild.name);
+    </script>
+  </body>
+</html>

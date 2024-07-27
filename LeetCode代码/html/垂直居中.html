@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 
+      实现文字的上下左右居中
+    */
+      .fontTable {
+        width: 500px;
+        height: 500px;
+        background-color: aqua;
+        text-align: center;
+        vertical-align: middle;
+        display: table-cell;
+      }
+      /* 
+    单行文字实现居中
+  */
+      .fontHeight {
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        background-color: blue;
+      }
+      /* 
+    当子元素的宽高知道的时候
+  */
+      .divFather {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        background-color: brown;
+        .child {
+          width: 100px;
+          height: 100px;
+          position: absolute;
+          background-color: aqua;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          margin: auto;
+        }
+      }
+      /* 
+    当子元素宽高不知道的时候
+    两种方法
+  */
+      .unKnowDIV {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        background-color: black;
+        .unKnowChild {
+          position: absolute;
+          background-color: aqua;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 50%;
+          height: 50%;
+        }
+      }
+      .unKnowDIV2 {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        background-color: blue;
+        .unKnowChild2 {
+          position: absolute;
+          background-color: aqua;
+          left: 50%;
+          top: 50%;
+          margin-left: -25%;
+          margin-top: -25%;
+          width: 50%;
+          height: 50%;
+        }
+      }
+      /* 
+        还有display:flex
+      */
+    </style>
+  </head>
+  <body>
+    <div class="fontTable">这是一个测试的用例</div>
+    <div class="fontHeight">测试</div>
+    <div class="divFather">
+      <div class="child"></div>
+    </div>
+    <div class="unKnowDIV">
+      <div class="unKnowChild"></div>
+    </div>
+    <div class="unKnowDIV2">
+      <div class="unKnowChild2"></div>
+    </div>
+  </body>
+</html>

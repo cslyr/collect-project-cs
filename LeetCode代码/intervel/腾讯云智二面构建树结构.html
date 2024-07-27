@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const list = [
+        { id: 5, parent: 4 },
+        { id: 2, parent: 0 },
+        { id: 3, parent: 1 },
+        { id: 1, parent: 0 },
+        { id: 4, parent: 1 },
+        { id: 0, parent: -1 },
+      ];
+
+      function buildTreeAndCalculateDepth(list) {
+        const nodeMap = new Map();
+        let root = null;
+
+        // 构建所有节点，并存储到映射中
+        list.forEach(item => {
+          const node = { id: item.id, children: [] };
+          nodeMap.set(item.id, node);
+          if (item.parent === -1) {
+            root = node;
+          }
+        });
+
+        // 构建树结构
+        list.forEach(item => {
+          if (item.parent !== -1) {
+            const parentNode = nodeMap.get(item.parent);
+            parentNode.children.push(nodeMap.get(item.id));
+          }
+        });
+
+     
+
+
+
+        let maxDepth = 0;
+        let longestPath = [];
+
+        function findDepthAndPath(node, currentPath = []) {
+          currentPath.push(node.id);
+          if (node.children.length === 0) {
+            // 当前节点是叶子节点
+            if (currentPath.length > maxDepth) {
+              maxDepth = currentPath.length;
+              longestPath = currentPath.slice(); // 保留最长路径的副本
+            }
+          } else {
+            node.children.forEach(child => {
+              findDepthAndPath(child, currentPath);
+            });
+          }
+          currentPath.pop(); // 返回前从路径中移除当前节点
+        }
+
+        findDepthAndPath(root); // 从根节点开始遍历
+
+        return {
+          maxDepth,
+          longestPath,
+        };
+      }
+
+      const result = buildTreeAndCalculateDepth(list);
+      console.log('Max Depth:', result.maxDepth);
+      console.log('Longest Path IDs:', result.longestPath);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      (function b() {
+        //这是一个具名函数，在这段代码当中的意义相当于  const b=function(){}  定义了这个局部变量   其中b并没有加变量的声明是一个全局变量   所以
+        b = 123; //所以当输出b的时候    输出的结果是123
+        console.log(b);
+      })();
+
+
+
+      /* 
+        在这段代码当中定义了一个匿名的函数  其中b是一个全局的变量，当在当前作用域当中找不到b这个全局变量的时候会沿着作用域链跳出去找
+        输出的就是b
+      */
+      (function () {
+        b = 123;
+        console.log(b);
+      })();
+    </script>
+  </body>
+</html>

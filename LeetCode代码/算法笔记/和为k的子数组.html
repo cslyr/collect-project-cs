@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var isValid = function (s) {
+        let left = [];
+        for (let i = 0; i < s.length; i++) {
+          let arg = s.charAt(i);
+          if (arg === '(' || arg === '{' || arg === '[') {
+            left.push(arg);
+          } else {
+            if (left.length !== 0 && leftOf(arg) === left[left.length - 1]) {
+              left.pop();
+            } else {
+              return false;
+            }
+          }
+        }
+        return left.length === 0;
+      };
+      function leftOf(sy) {
+        if (sy === ')') return '(';
+        if (sy === '}') return '{';
+        return '[';
+      }
+      console.log(isValid("(]()[]{}"))
+      
+    </script>
+  </body>
+</html>

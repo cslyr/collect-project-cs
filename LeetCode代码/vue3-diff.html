@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      console.log(getSequence([10, 9, 2, 5, 3, 7, 101, 18,]));
+      function getSequence(arr) {
+        const p = new Array(arr.length).fill(-1); // 初始化前驱索引数组，所有元素初值为-1
+        const result = [0]; // 初始化结果数组，开始时包含第一个元素的索引
+        for (let i = 1; i < arr.length; i++) {
+          if (arr[i] > arr[result[result.length - 1]]) {
+            p[i] = result[result.length - 1]; // 设置当前元素的前驱元素索引
+            result.push(i); // 当前元素比结果数组的最后一个元素大，添加其索引
+            continue;
+          }
+          let low = 0;
+          let high = result.length - 1;
+          while (low < high) {
+            const mid = Math.floor((low + high) / 2); // 二分查找，查找插入位置
+            if (arr[result[mid]] < arr[i]) {
+              low = mid + 1; // 移动下界
+            } else {
+              high = mid; // 移动上界
+            }
+          }
+          if (arr[i] < arr[result[low]]) {
+            if (low > 0) {
+              p[i] = result[low - 1]; // 更新当前元素的前驱索引
+            }
+            result[low] = i; // 更新结果数组中的位置
+          }
+        }
+        let u = result.length;
+        let v = result[u - 1];
+        
+
+        // [2, 4, 5, 7]=>[2,3,7,18]
+        while (u-- > 0) {
+          // console.log(u); //3,2,1,0
+          console.log(v);//7,5,4,2
+          result[u] = v; // 回溯构建最终的递增子序列
+          v = p[v];
+        }
+        return result;
+      }
+    </script>
+  </body>
+</html>

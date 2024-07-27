@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const Arr = [-1, 1, 2, 2];
+      //   const _deleteRepeat = array => {
+      //     // 补全代码
+      //     return Array.from(new Set(array))
+      //   };
+      //  let res= _deleteRepeat(Arr)
+      //  console.log("res",res)
+
+      const dropFn = arr => {
+        const result = [];
+        arr.forEach(element => {
+          if (!result.includes(element)) result.push(element);
+        });
+        console.log(result, 'result');
+      };
+      dropFn(Arr)
+    </script>
+  </body>
+</html>

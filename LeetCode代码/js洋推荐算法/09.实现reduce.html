@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      Array.prototype._reduce = function (Fn, cur) {
+        if (arguments.length > 1) {
+          let res;
+          for (let i = 0; i < this.length; i++) {
+            res = Fn(arguments[1], this[i]);
+            arguments[1] = res;
+          }
+          return res;
+        } else {
+          arguments[1] = this[0];
+          let res;
+          for (let i = 1; i < this.length; i++) {
+            res = Fn(arguments[1], this[i]);
+            arguments[1] = res;
+          }
+          return res;
+        }
+      };
+      let arr = [1, 2, 3];
+      let res = arr._reduce(function (pre, cur) {
+        return pre + cur;
+      });
+      console.log('res', res);
+    </script>
+  </body>
+</html>

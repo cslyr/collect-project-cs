@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const list = [
+        { id: 5, parent: 4 },
+        { id: 2, parent: 0 },
+        { id: 3, parent: 1 },
+        { id: 1, parent: 0 },
+        { id: 4, parent: 1 },
+        { id: 0, parent: -1 },
+      ];
+      const treeMap = new Map();
+      let root = null;
+      list.forEach(item => {
+        let node = { id: item.id, child: [] };
+        if (item.parent === -1) {
+          root = node;
+        }
+        treeMap.set(item.id, node);
+      });
+      list.forEach(item => {
+        if (item.parent !== -1) {
+          let parent = treeMap.get(item.parent);
+          parent.child.push(treeMap.get(item.id));
+        }
+      });
+      console.log(root);
+    </script>
+  </body>
+</html>

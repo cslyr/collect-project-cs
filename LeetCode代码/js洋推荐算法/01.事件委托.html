@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <ul>
+      <li>.</li>
+      <li>.</li>
+      <li>.</li>
+    </ul>
+  </head>
+  <body>
+    <!-- 请补全JavaScript代码，要求如下：
+        1. 给"ul"标签添加点击事件
+        2. 当点击某"li"标签时，该标签内容拼接"."符号。如：某"li"标签被点击时，该标签内容为".."
+        注意：
+        1. 必须使用DOM0级标准事件（onclick） 
+      -->
+    <script>
+      document.querySelector('ul').onclick=((event)=>{
+        //tagName是一个元素节点（Element node）的属性，它返回一个大写的字符串，表示该元素的标签名。
+        if(event.target.tagName=='LI'){
+          event.target.textContent='..'
+        }
+      })
+    </script>
+  </body>
+</html>

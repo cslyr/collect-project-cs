@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 手写实现一个call方法
+      Function.prototype.myCall = function (context = window, ...args) {//1.如果没有传this的话，那么this指向的就是window，如果传入了this，那么content指向的就是传入的值
+        // 2.context为null或undefined时，指向全局对象
+        context = context || window;
+
+        // 为context创建一个Symbol属性以避免覆盖原有属性
+        const fnSymbol = Symbol();
+        context[fnSymbol] = this;  //3.这里的content表示的就是person，this指向的是showDetail 表示的就是将content上面新增一个fnSymbol的属性，这个属性的值就是showDetail
+        // // 调用函数并传递参数
+        const result = context[fnSymbol](...args);//4.这里表示的就是调用showDetail这个函数，并且传入参数   30和'Developer'
+
+        // // 删除添加的属性
+        delete context[fnSymbol];
+
+        // // 返回函数执行的结果
+        return result;  //这个是为了如果在showDetail原函数当中使用return  返回的时候，在这个函数当中执行，理所当然也要返回
+      };
+
+      // 使用示例
+      function showDetails(age, profession) {
+        console.log(
+          this.name + ', Age: ' + age + ', Profession: ' + profession
+        );
+      }
+
+      const person = {
+        name: 'John Doe',
+      };
+
+      // 使用自定义的myCall方法
+      showDetails.myCall(person, 30, 'Developer');
+    </script>
+  </body>
+</html>

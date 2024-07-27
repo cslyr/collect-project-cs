@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const personPrototype = {
+        sayHello: function () {
+          console.log('Hello!');
+        },
+      };
+
+      const person = Object.create(personPrototype);
+      person.name = 'poetry';
+      person.age = 30;
+      // console.log("person",person.sayHello())
+      // console.log("personPrototype",personPrototype)
+      // console.log("===",person.__proto__.prototype===personPrototype.prototype)//true
+      // console.log("===2",person.__proto__===personPrototype)//true
+
+      // class Person {
+      //   constructor(name, age) {
+      //     //当执行new的时候，constructor会自动执行
+      //     this.name = name;
+      //     this.age = age;
+      //   }
+      //   sayHello() {
+      //     console.log('Hello!');
+      //   }
+      // }
+
+      // const person = new Person('poetry', 30);
+
+      function myObjectCreate(proto) {
+        // 创建一个空的构造函数
+        function F() {}
+        // 将这个空构造函数的原型指向传入的原型对象
+        F.prototype = proto;
+        // 使用 new 关键字创建 F 的实例，其原型指向 proto
+        return new F();
+      }
+
+      var Base = function () {
+        this.a = 2;
+      };
+
+      // 使用自定义的 myObjectCreate 函数代替 Object.create
+      var o2 = myObjectCreate(Base.prototype);
+
+      // 因为 Base 函数本身并没有被调用，所以 o2 上不会有属性 a
+      // o2.__proto__ 将指向 Base.prototype
+    </script>
+  </body>
+</html>

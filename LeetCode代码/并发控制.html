@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function asyncPool(poolLimit, array, iteratorFn) {
+        const ret = []; //2
+        const executing = []; //3
+        for (const item of array) {
+          //4
+          const p = Promise.resolve().then(() => iteratorFn(item)); //5
+          ret.push(p); //6
+          if (poolLimit <= array.length) {
+            //7
+            const e = p.then(() => executing.splice(executing.indexOf(e), 1)); //8
+            executing.push(e); //9
+            if (executing.length >= poolLimit) {
+              //10
+              await Promise.race(executing); //11
+            }
+          }
+        }
+        console.log("111")
+        return Promise.all(ret); //15
+      }
+      const curl = i => {
+        console.log('开始' + i);
+        return new Promise(resolve =>
+          setTimeout(() => {
+            resolve(i);
+            console.log('结束' + i);
+          }, 1000 + Math.random() * 1000)
+        );
+      };
+
+      let urls = Array(10)
+        .fill(0)
+        .map((v, i) => i);
+      (async () => {
+        const res = await asyncPool(3, urls, curl);
+        console.log(res);
+      })();
+    </script>
+  </body>
+</html>

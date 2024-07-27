@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var urls = [
+        'http://jsonplaceholder.typicode.com/posts/1',
+        'http://jsonplaceholder.typicode.com/posts/2',
+        'http://jsonplaceholder.typicode.com/posts/3',
+        'http://jsonplaceholder.typicode.com/posts/4',
+        'http://jsonplaceholder.typicode.com/posts/5',
+        'http://jsonplaceholder.typicode.com/posts/6',
+        'http://jsonplaceholder.typicode.com/posts/7',
+        'http://jsonplaceholder.typicode.com/posts/8',
+        'http://jsonplaceholder.typicode.com/posts/9',
+        'http://jsonplaceholder.typicode.com/posts/10',
+      ];
+
+      function loadDate(url) {
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          console.log(1111);
+          xhr.open('GET', url);
+          xhr.send();
+          xhr.onload = function () {
+            //当请求完成的时候会触发这个事件
+            resolve();
+          };
+        });
+      }
+      limitLoad(urls, loadDate, 3);
+      function limitLoad(urls, handler, limit) {
+        // 对数组进行一个拷贝
+        const sequence = [].concat(urls);
+        let promises = [];
+        //实现并发请求达到最大值
+        console.log('sequence', sequence);
+        //每一个循环当中，循环的次数是3
+        promises = sequence.splice(0, limit).map((url, index) => {
+          // 这里返回的 index 是任务在数组 promises 的脚标
+          //用于在 Promise.race 后找到完成的任务脚标
+          return handler(url).then(() => {//这个return返回的是map当中的return
+            console.log(222);
+            return index;//这个return返回的是promise  resolve当中的return
+          });
+        });
+        console.log('promises', promises);
+        // 利用数组的 reduce 方法来以队列的形式执行
+        return sequence
+          .reduce((last, url, currentIndex) => {
+            console.log('reduce', last);
+            console.log('currentIndex', currentIndex);
+            return last
+              .then(() => {//promise.race()作为迭代的最终结果成为下一个reduce的last
+                // 返回最快改变状态的 Promise
+                return Promise.race(promises);
+              })
+              .catch(err => {
+                // 这里的 catch 不仅用来捕获前面 then 方法抛出的错误
+                // 更重要的是防止中断整个链式调用
+                console.error(err);
+              })
+              .then(res => {
+                console.log(res,'res')
+                // 用新的 Promise 替换掉最快改变状态的 Promise
+                promises[res] = handler(sequence[currentIndex]).then(() => {
+                  return res;
+                }); 
+              });
+          }, Promise.resolve())
+          .then(() => {//上面整个循环完了才会执行promise.all所以写上去意义并不是很大
+            // debugger
+            console.log('all')
+            return Promise.all(promises);
+          });
+      }
+    </script>
+  </body>
+</html>

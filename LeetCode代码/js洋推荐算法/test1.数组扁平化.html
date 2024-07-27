@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+              当数组嵌套了一层的时候
+            */
+      // const arr1 = [0, 1, , 2, [3, 4]];
+      // let newArr = arr1.flat();
+      // console.log(newArr); //什么都不传的时候默认是一层
+      // //输出的结果是[0, 1, 2, 3, 4]
+
+      /*
+              当数组嵌套了好多层的时候
+            */
+      // const arr1 = [0, 1, , 2, [[[3, 4]]]];
+      // console.log(arr1.flat(3));
+      //输出: [0, 1, 2, 3, 4]
+
+      /*
+       reduce+concat实现扁平化 
+      */
+      const arr = [1, 2, 3, [4], [[[5]]]];
+      let onArray = function (arr) {
+        let res = [];
+        if (Array.isArray(arr)) {
+          res = arr.reduce((pre, cur) => {
+            return pre.concat(onArray(cur));
+          }, []);
+        } else {
+          res.push(arr);
+        }
+        return res;
+      };
+      let result = onArray(arr);
+      console.log('result', result);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .triangle {
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent; /* 左边透明边框 */
+        border-right: 50px solid transparent; /* 右边透明边框 */
+        border-bottom: 100px solid blue; /* 下边蓝色边框 */
+      }
+      /* .triangle1 {
+        width: 1400px;
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: deeppink;
+          transform-origin: right bottom;
+          transform: rotate(45deg);
+        }
+      } */
+      .triangle1 {
+        position: relative;
+        width: 1000px;
+        height: 500px;
+        overflow: hidden;
+        &::before {
+          position: absolute;
+          content: '';
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: aqua;
+          transform-origin: left bottom;
+          transform: rotate(45deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="triangle"></div>
+    <div class="triangle1"></div>
+  </body>
+</html>

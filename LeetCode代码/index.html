@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="example">
+      Hello
+      <span>World</span>
+    </div>
+
+    <script>
+      // console.log(Object.prototype.toString.call(undefined)); // [object Undefined]
+      // console.log(Object.prototype.toString.call(null)); // [object Null]
+      // console.log(Object.prototype.toString.call(Array)); // [object function]
+      // console.log(Object.prototype.toString.call([])); // [object Array]
+      // console.log(typeof NaN)
+      // console.log(typeof Array)//function
+      // console.log(typeof set)
+      // let a = '123';
+      // console.log(a[2])
+      // b=[1,2]
+      // b.forEach(element => {
+      //   console.log("el",element.name)
+      //   console.log("el",element.value)
+      // });
+
+      /* 
+        大小写转换
+      */
+      // let str = 'NI hAO a 我叫yANG QAQ';
+      // let res = str.split('');
+      // let data = res
+      //   .map(item => {
+      //     return item.toLocaleUpperCase() === item
+      //       ? item.toLowerCase()
+      //       : item.toLocaleUpperCase();
+      //   })
+      //   .join('');
+      // console.log(data);
+
+      /* 
+        代码中断程序
+      */
+      // function testFunction() {
+      //   console.log('执行前');
+      //   throw new Error('我是一个异常'); //在这里会立即中断当前函数的执行
+      //   // 下面的代码不会执行
+      //   console.log('执行后');
+      // }
+      // // testFunction()
+      // /*
+      //   1.如果程序不进行异常的处理也就是不再进行try catch的时候  而是直接调用异常的函数那么整个线程就会终止（异常的函数也会终止执行）
+      //   并且会在控制台打印红色报错
+      //   2.如果使用try catch语句捕获到了异常情况  并且在catch语句当中进行了异常的处理，那么异常的函数会终止执行
+      //   但是不影响整个线程的执行
+      // */
+
+      // try {
+      //   testFunction();
+      // } catch (e) {
+      //   console.log('捕获到异常：', e.message);
+      // }
+
+      // console.log('程序继续执行');
+
+      /* 
+        instanceof的使用
+      */
+      // const myArray = [1, 2, 3];
+      // console.log(myArray instanceof Array); // 输出：true
+      // console.log(myArray instanceof Object); // 输出：true
+
+      // const myFunction = function () {};
+      // console.log(myFunction instanceof Function); // 输出：true
+      // console.log(myFunction instanceof Object); // 输出：true
+
+      // const myDate = new Date();
+      // console.log(myDate instanceof Date); // 输出：true
+      // console.log(myDate instanceof Object); // 输出：true
+
+      // const myMap = new Map();
+      // console.log(myMap instanceof Map); // 输出：true
+      // console.log(myMap instanceof Object); // 输出：true
+
+      /* 
+        模拟map的使用
+      */
+      // function map(array, callback) {
+      //   // 创建一个空数组来存储结果
+      //   let result = [];
+
+      //   // 遍历传入的数组
+      //   for (let i = 0; i < array.length; i++) {
+      //     // 对每个元素应用回调函数，并将结果推入结果数组
+      //     result.push(callback(array[i], i, array));
+      //   }
+
+      //   // 返回新的结果数组
+      //   return result;
+      // }
+
+      // // 示例用法
+      // let numbers = [1, 2, 3, 4, 5];
+      // let squaredNumbers = map(numbers, function (num) {
+      //   return num * num;
+      // });
+
+      // console.log(squaredNumbers); // [1, 4, 9, 16, 25]
+
+      /* 
+        Symbol
+      */
+      let a = Symbol('abc');//只是创建一个描述而已   详细查看  Symbol(abc)
+      console.log('a', a);
+    </script>
+  </body>
+</html>

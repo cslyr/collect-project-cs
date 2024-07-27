@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function myNew(constructor, ...args) {
+        // 创建一个新的空对象
+        const newObj = {};
+        // console.log(args)   [name,age]
+        console.log(name)
+        // console.log(age)
+        // 将新对象的原型链接到构造函数的原型对象
+        Object.setPrototypeOf(newObj, constructor.prototype);
+
+        // 将构造函数的作用域赋给新对象，并执行构造函数
+        const result = constructor.apply(newObj, args);
+
+        // 如果构造函数有显式返回一个对象，则返回该对象；否则返回新对象
+        return typeof result === 'object' && result !== null ? result : newObj;
+      }
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+
+      Person.prototype.sayHello = function () {
+        console.log('Hello, my name is ' + this.name);
+      };
+
+      var poetry = myNew(Person, 'poetry', 25);
+      console.log(poetry.name); // 输出: poetry
+      console.log(poetry.age); // 输出: 25
+      poetry.sayHello(); // 输出: Hello, my name is poetry
+    </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function parent(name){
+      this.name=['2','3']
+    }
+    function child(){
+
+    }
+    child.prototype=new parent()
+    let child1=new child()
+    let child2=new child()
+    child1.name.push('3')
+    console.log(child2.name)
+  </script>
+</body>
+</html>

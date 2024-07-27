@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function t7() {
+        let a = await fn().then(res => {
+          return 'res';
+        });
+        console.log(a);
+      }
+      async function fn() {   //当使用async的时候，后面的函数会变成一个promise对象    再new一个promise就是内部promise的事情了，但是fn().then()返回的是最外面的promise的成功状态，但是最外层的promise是async创造的，成功状态又没有定义  
+        await new Promise(resolve => {
+          resolve('lagou');
+        });
+        return 'lala';
+      }
+      t7();
+    </script>
+  </body>
+</html>

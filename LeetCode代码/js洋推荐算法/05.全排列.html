@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //整个过程和你做的vue八股当中第二张图的过程一模一样
+      _permute('abc');
+      function _permute(str) {
+        let result = [];
+
+        // 递归终止条件：如果字符串长度为1，直接返回包含该字符串的数组
+        if (str.length <= 1) {
+          return [str];
+        }
+        /*
+          我来展示一下大概的思路是什么
+          1.首先拿到for的第一个数，此时是a  这个时候remainingChars是bc,执行迭代的时候会传入bc进入下一次迭代  这个时候char是a
+          2.bc进入for循环，循环第一次   此时固定的是b，   c进入下一个迭代     这个时候char是b
+          3.然后c进入新迭代当中的循环  char就是c    然后return [c]
+          4.这个回退到2. 这个步骤，继续for循环，这个时候固定的是c    b进入下一个迭代    这个时候char是c
+        */
+        for (let i = 0; i < str.length; i++) {
+          // 选择当前位置的字符作为固定字符
+          const char = str[i];
+
+          // 获取除了当前字符以外的其他字符构成的字符串
+          const remainingChars = str.slice(0, i) + str.slice(i + 1, str.length);
+
+          // 对剩余的字符串进行全排列
+          const remainingCharsPermutations = _permute(remainingChars);
+
+          // 将当前固定字符与其后的全排列结果进行组合
+          for (const permutation of remainingCharsPermutations) {
+            result.push(char + permutation);
+          }
+        }
+
+        return result;
+      }
+
+      console.log(_permute('abc'));
+    //  let res= row('abc');
+    //  console.log("res",res)
+    //   function row(char) {
+    //     if (char.length < 2) {
+    //       return [char];
+    //     }
+    //     let result = [];
+    //     for (let i = 0; i < char.length; i++) {
+    //       let curData = char[i];
+    //       let nextData = char.slice(0, i) + char.slice(i + 1, char.length);
+    //       let resultData = row(nextData);
+    //       for(data of resultData){
+    //         result.push(curData+data)
+    //       }
+    //     }
+    //     return result
+    //   }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+      1.找到数据的中心轴
+      2.将比中心轴小的数据放到中心轴的左边
+      3.将比中心轴大的数据放到中心轴的右边
+      4.使用递归的方法重复上述操作
+    */
+      const Arr = [0, -1, 1, -2, 2];
+      function funcQuickSort(arr) {
+        if (arr.length < 2) {
+          //如果长度为1或者长度为0的时候直接返回
+          return arr;
+        }
+        let middleIndex = Math.floor(arr.length / 2); //拿到中间数组的索引
+        let middleData = arr.splice(middleIndex, 1)[0]; //拿到中间数组当中的值
+        let leftArr = [];
+        let rightArr = [];
+        arr.forEach(item => {
+          if (item < middleData) {
+            leftArr.push(item);
+          } else {
+            rightArr.push(item);
+          }
+        });
+        return funcQuickSort(leftArr).concat(middleData,funcQuickSort(rightArr))
+      }
+     let res= funcQuickSort(Arr);
+     console.log("res",res)
+    </script>
+  </body>
+</html>

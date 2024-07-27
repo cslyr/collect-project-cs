@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Foo() {
+        //本身定义的是一个函数对象而不是空对象，在js当中函数既可以使用函数的方法，同样也可以使用对象的方法
+        // this.getName = function () {
+        //   console.log(8);
+        // };
+        getName = function () {
+          //只有FOO()函数被执行的时候FOO()函数当中定义的函数才会被加到全局对象上
+          console.log(1);
+        };
+        return this;
+      }
+      Foo.getName = function () {
+        //给Foo对象增加的属性
+        console.log(2);
+      };
+      Foo.prototype.getName = function () {
+        //给Foo函数增加的一个属性
+        console.log(3);
+      };
+      var getName = function () {
+        //在当前作用域当中定义的一个变量
+        console.log(4);
+      };
+      function getName() {
+        //在当前作用域当中定义的一个函数
+        console.log(5);
+      }
+      console.log(this);
+      // Foo.getName();   //调用了 Foo 对象上的 getName 方法   所以输出结果是2
+      // Foo().getName();   //调用了 Foo 函数并将其结果作为对象，然后调用该对象上的 getName 方法     所以输出结果是1
+    
+      // getName();
+      // new Foo.getName();    //相当于实例化了对象，this指向对象，getName依然是对象的
+      new Foo().getName();  //如果加上了 // this.getName = function () {  那么输出的结果应该是8  但是没有加，会从原型链上向上找，找到3
+     
+      // new new Foo().getName(); // =>相当于 new (new Foo().getName())    内容的new调用的是函数当中的getName()   得到getName()  后面再new去执行  3
+
+      
+      /* 
+      这段代码涉及到 JavaScript 中的几个重要概念，包括函数声明与函数表达式的区别、对象属性与原型链、以及构造函数的工作原理。让我们一步一步来分析这段代码的执行过程及其输出结果。
+
+1. 函数声明与函数表达式
+在 JavaScript 中，函数声明和函数表达式是不同的。函数声明会在代码执行前预处理，而函数表达式则在代码执行到其位置时才会被解释执行。
+
+function getName() {
+  console.log(5);
+}
+var getName = function () {
+  console.log(4);
+};
+上面的代码中，首先有一个名为 getName 的函数声明，它输出 5。然后，有一个名为 getName 的函数表达式，它输出 4。由于 JavaScript 的变量提升特性，函数声明会被提升到顶部，但函数表达式不会。然而，由于 var getName 是一个函数表达式，它会覆盖之前的函数声明。因此，无论何时调用 getName()，都会输出 4，直到 getName 被进一步修改。
+
+2. 代码解析
+接下来，让我们按顺序解析和解释代码段：
+
+Foo.getName();
+这里直接调用 Foo 对象上的 getName 方法，输出 2。
+
+Foo().getName();
+Foo() 被调用时，其中的 getName = function () { console.log(1); }; 这行代码会执行，而这个 getName 没有使用 var、let 或 const 进行声明，因此它会成为全局变量（或在非严格模式下修改全局的 getName）。这会覆盖最初的 getName 函数。然后，由于 Foo() 返回 this，而在非严格模式下全局环境中 this 指向全局对象（浏览器中的 window），Foo().getName(); 会调用被修改的全局 getName 函数，输出 1。
+
+getName();
+这会调用最后一次设置的 getName 函数，也就是在 Foo() 中设置的，输出 1。
+
+new Foo.getName();
+这是一个有趣的语法，它实际上是 (new Foo.getName())。这里 Foo.getName 被当作构造函数来调用，因此输出 2。
+
+new Foo().getName();
+这里先创建了 Foo 的一个新实例，然后调用这个新实例的 getName 方法。由于在 Foo 的定义中，没有直接给实例添加 getName 方法，所以它会从 Foo 的原型链上查找 getName 方法，找到的是 Foo.prototype.getName，因此输出 3。
+
+new new Foo().getName();
+这句话可以解析为 new (new Foo()).getName()。首先，new Foo() 创建了 Foo 的一个实例，然后调用这个实例上的 getName 方法，如上所述，找到的是 Foo.prototype.getName，因此 new Foo().getName 实际上是一个函数。然后，前面的 new 操作符试图对这个函数进行实例化，即尝试创建一个由 Foo.prototype.getName 函数构造的新对象。由于 Foo.prototype.getName 是一个简单的函数，这里不涉及到返回值的修改，所以这个操作实际上没有任何输出（因为 console.log(3) 是由 getName 函数直接调用的，而不是构造函数中的代码）。但如果 getName 函数中有 this 相关的代码，它将作用于通过 new 创建的对象上。
+
+总结输出结果：
+Foo.getName(); 输出 2。
+Foo().getName(); 输出 1。
+getName(); 输出 1。
+new Foo.getName(); 输出 2。
+new Foo().getName();
+      
+      */
+    </script>
+  </body>
+</html>
